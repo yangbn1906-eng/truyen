@@ -8,11 +8,20 @@ def scroll_to_top():
     st.components.v1.html(
         """
         <script>
-            window.parent.document.querySelector('.main .block-container').scrollIntoView({behavior: 'smooth', block: 'start'});
+            // Chờ 100ms để Streamlit render nội dung mới xong
+            setTimeout(function() {
+                // Cuộn cả trang web chính lên đầu
+                window.parent.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: 'smooth'
+                });
+            }, 100);
         </script>
         """,
         height=0,
     )
+
 
 # --- PHẦN LOGIC TRUYỆN (Giữ nguyên từ bản trước) ---
 DANH_SACH_TRUYEN = {
