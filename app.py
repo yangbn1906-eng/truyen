@@ -1,7 +1,7 @@
 import streamlit as st
 import os
 
-st.set_page_config(page_title="Reader Pro", layout="centered")
+st.set_page_config(page_title="Đọc Truyên Chữ - Anbub", layout="centered")
 
 # --- PHẦN MỚI: ĐẶT MỎ NEO Ở ĐẦU TRANG ---
 # Tạo một cái thẻ div trống ở trên cùng với id là 'top'
@@ -27,6 +27,8 @@ def scroll_to_top():
 # --- GIỮ NGUYÊN PHẦN LOGIC TRUYỆN ---
 DANH_SACH_TRUYEN = {
     "Những Ngày Cuối Tháng 4": "Truyen_Full_Nhung_Ngay_Cuoi_Thang_4.txt"
+    "|VỤ ÁN CÓ THẬT| HAI THẾ KỶ": "truyen hai the ky.txt" # Thay bằng tên file thực tế của bạn
+
 }
 
 def lay_noi_dung(path):
@@ -35,7 +37,7 @@ def lay_noi_dung(path):
             return [p.strip() for p in f.read().split("---------------") if p.strip()]
     return None
 
-st.sidebar.title("📚 Thư Viện")
+st.sidebar.title("📚 Danh Sách Truyện")
 ten_truyen_chon = st.sidebar.selectbox("Chọn bộ truyện:", list(DANH_SACH_TRUYEN.keys()))
 data = lay_noi_dung(DANH_SACH_TRUYEN[ten_truyen_chon])
 
