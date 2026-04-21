@@ -3,30 +3,30 @@ import os
 
 st.set_page_config(page_title="Reader Pro", layout="centered")
 
-# Hàm cuộn lên đầu trang bằng JavaScript
+# --- PHẦN MỚI: ĐẶT MỎ NEO Ở ĐẦU TRANG ---
+# Tạo một cái thẻ div trống ở trên cùng với id là 'top'
+st.markdown("<div id='link_to_top'></div>", unsafe_allow_html=True)
+
+# Hàm cuộn trang dùng phương pháp Anchor
 def scroll_to_top():
+    # Ép trình duyệt nhảy đến id 'link_to_top'
     st.components.v1.html(
         """
         <script>
-            // Chờ 100ms để Streamlit render nội dung mới xong
-            setTimeout(function() {
-                // Cuộn cả trang web chính lên đầu
-                window.parent.scrollTo({
-                    top: 0,
-                    left: 0,
-                    behavior: 'smooth'
-                });
-            }, 100);
+            var v = window.parent.document.getElementById("link_to_top");
+            if (v) {
+                v.scrollIntoView({behavior: "auto", block: "start"});
+            }
+            // Giải pháp dự phòng: Cuộn thủ công khung mẹ
+            window.parent.scrollTo(0, 0);
         </script>
         """,
         height=0,
     )
 
-
-# --- PHẦN LOGIC TRUYỆN (Giữ nguyên từ bản trước) ---
+# --- GIỮ NGUYÊN PHẦN LOGIC TRUYỆN ---
 DANH_SACH_TRUYEN = {
-    "Những Ngày Cuối Tháng 4": "Truyen_Full_Nhung_Ngay_Cuoi_Thang_4.txt",
-    "|VỤ ÁN CÓ THẬT| HAI THẾ KỶ": "truyen hai the ky.txt" # Thay bằng tên file thực tế của bạn
+    "Những Ngày Cuối Tháng 4": "Truyen_Full_Nhung_Ngay_Cuoi_Thang_4.txt"
 }
 
 def lay_noi_dung(path):
@@ -43,28 +43,29 @@ if data:
     if 'chapter_index' not in st.session_state:
         st.session_state.chapter_index = 0
 
-    # Hàm xử lý khi bấm nút + gọi lệnh cuộn trang
     def cong_trang():
         if st.session_state.chapter_index < len(data) - 1:
             st.session_state.chapter_index += 1
-            scroll_to_top() # Cuộn lên khi qua trang mới
+            scroll_to_top() # Gọi hàm nhảy về mỏ neo
 
     def tru_trang():
         if st.session_state.chapter_index > 0:
             st.session_state.chapter_index -= 1
-            scroll_to_top() # Cuộn lên khi về trang trước
+            scroll_to_top()
 
-    # Sidebar: Cập nhật index
+    # Cập nhật index qua Sidebar
     st.session_state.chapter_index = st.sidebar.radio(
         "Mục lục:", range(len(data)), 
         index=st.session_state.chapter_index,
         format_func=lambda x: f"Phần {x + 1}"
     )
 
+    # TIÊU ĐỀ VÀ NỘI DUNG
     st.title(f"📖 {ten_truyen_chon}")
     st.markdown(f"### Phần {st.session_state.chapter_index + 1}")
     st.write(data[st.session_state.chapter_index])
 
+    # ĐIỀU HƯỚNG CUỐI TRANG
     st.write("---")
     col1, col2, col3 = st.columns([1,1,1])
     with col1:
@@ -74,6 +75,6 @@ if data:
     with col2:
         st.markdown(f"<p style='text-align: center;'>{st.session_state.chapter_index + 1} / {len(data)}</p>", unsafe_allow_html=True)
 else:
-    st.error("Không tìm thấy file truyện.")
+    st.error("Không tìm thấy file.")
 
 st.markdown("<style>.stMarkdown p { font-size: 21px; line-height: 1.8; }</style>", unsafe_allow_html=True)
