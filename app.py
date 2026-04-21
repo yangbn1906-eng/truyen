@@ -26,7 +26,7 @@ def scroll_to_top():
 
 # --- GIỮ NGUYÊN PHẦN LOGIC TRUYỆN ---
 DANH_SACH_TRUYEN = {
-    "Những Ngày Cuối Tháng 4": "Truyen_Full_Nhung_Ngay_Cuoi_Thang_4.txt"
+    "Những Ngày Cuối Tháng 4": "Truyen_Full_Nhung_Ngay_Cuoi_Thang_4.txt",
     "|VỤ ÁN CÓ THẬT| HAI THẾ KỶ": "truyen hai the ky.txt" # Thay bằng tên file thực tế của bạn
 
 }
